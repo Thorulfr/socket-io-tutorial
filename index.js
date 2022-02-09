@@ -15,9 +15,18 @@ app.get('/', (req, res) => {
 
 // Listen for incoming sockets and log them
 io.on('connection', (socket) => {
+    // Log that a user connected on connect
     console.log('A user connected!');
+    // Log that a user disconnected on disconnect
     socket.on('disconnect', () => {
         console.log('A user disconnected.');
+    });
+    // Log users' messages
+    socket.on('chat message', (msg) => {
+        // Log to server console
+        console.log('message: ' + msg);
+        // Emit to all sockets
+        io.emit('chat message', msg);
     });
 });
 
